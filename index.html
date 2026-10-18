@@ -98,6 +98,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0a1628;color:#e8edf3;mi
 <input id="f-video" class="finput" type="text" placeholder="e.g. https://www.youtube.com/watch?v=...">
 <label class="flabel">Author / Pen name</label>
 <input id="f-author" class="finput" type="text" value="Songlapov">
+<label class="flabel">Video style (for the YouTube walkthrough at the end)</label>
+<select id="f-vstyle" class="finput">
+<option value="walkthrough">Walkthrough (show what's inside the product)</option>
+<option value="promo">Promo / Trailer (short, exciting)</option>
+<option value="tutorial">Tutorial (teach something + pitch product)</option>
+</select>
 </div>
 </div>
 <button onclick="genCmd()" style="background:linear-gradient(180deg,#f2c14e,#d4a942);color:#0a1628;font-size:17px;font-weight:800;padding:14px 40px;border:none;border-radius:10px;cursor:pointer">Generate Request</button>
@@ -105,27 +111,6 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0a1628;color:#e8edf3;mi
 <label class="flabel">Copy this and send to Muse:</label>
 <textarea id="cmd-text" rows="8" readonly style="width:100%;padding:12px;border-radius:8px;border:1px solid #d4a942;background:#0a1628;color:#d4a942;font-size:14px;font-family:monospace"></textarea>
 <button onclick="copyCmd()" style="margin-top:10px;background:#1e3a6e;color:#fff;font-size:14px;font-weight:600;padding:10px 28px;border:none;border-radius:8px;border-radius:8px;cursor:pointer">Copy</button>
-</div>
-</div>
-
-<div class="card" style="border:2px solid #e05252">
-<h2 style="color:#e05252">🎬 YouTube Video Request</h2>
-<p style="color:#9fb0c8;font-size:14px;margin-bottom:18px">Muse will create a product walkthrough video, publish it on YouTube with <b style="color:#e05252">100% SEO</b>, then embed it back into the landing page.</p>
-<label class="flabel">Product (which product is the video for?) *</label>
-<input id="v-product" class="finput" type="text" placeholder="e.g. Faceless YouTube Empire">
-<label class="flabel">Landing Page URL *</label>
-<input id="v-lp" class="finput" type="text" placeholder="e.g. https://samratkhanov-tech.github.io/faceless-youtube-empire/">
-<label class="flabel">Video style</label>
-<select id="v-style" class="finput">
-<option value="walkthrough">Walkthrough (show what's inside the product)</option>
-<option value="promo">Promo / Trailer (short, exciting)</option>
-<option value="tutorial">Tutorial (teach something + pitch product)</option>
-</select>
-<button onclick="genVCmd()" style="background:linear-gradient(180deg,#e05252,#b03030);color:#fff;font-size:17px;font-weight:800;padding:14px 40px;border:none;border-radius:10px;cursor:pointer">Generate Request</button>
-<div id="vcmd-out" style="display:none;margin-top:18px">
-<label class="flabel">Copy this and send to Muse:</label>
-<textarea id="vcmd-text" rows="8" readonly style="width:100%;padding:12px;border-radius:8px;border:1px solid #e05252;background:#0a1628;color:#e05252;font-size:14px;font-family:monospace"></textarea>
-<button onclick="copyVCmd()" style="margin-top:10px;background:#1e3a6e;color:#fff;font-size:14px;font-weight:600;padding:10px 28px;border:none;border-radius:8px;cursor:pointer">Copy</button>
 </div>
 </div>
 
@@ -138,28 +123,15 @@ var d=document.getElementById('f-desc').value.trim();
 var p=document.getElementById('f-price').value;
 var a=document.getElementById('f-author').value.trim()||'Songlapov';
 var v=document.getElementById('f-video').value.trim();
+var vs=document.getElementById('f-vstyle');
+var vst=vs.options[vs.selectedIndex].text;
 var topicLine=(t||d)?('Title idea: '+t+(d?'\nAbout: '+d:'')):'Topic: NOT GIVEN — YOU decide. Research the WarriorPlus marketplace yourself and pick the hottest, best-selling topic/niche.';
-var cmd='📕 NEW PRODUCT REQUEST\n'+topicLine+'\nSuggested price: $'+p+' (analyze market — adjust to what sells best)\nAuthor: '+a+(v?'\nVideo: '+v:'')+'\nCommission: 50% | Refund: 14 days\n\nWORKFLOW:\n(0) MARKET ANALYSIS — research WarriorPlus marketplace: which topics/niches sell best right now. If no topic was given, YOU pick the winning topic yourself — the user wants you to decide everything. Suggest 3-5 title options, determine the optimal price point for maximum sales\n(1) Write the full PDF ebook based on market analysis (PDF QA: review end-to-end, fix every error before delivery)\n(2) Make a stylish cover (cinematic/emoji style)\n(3) Build the landing page (GitHub Pages)'+(v?' with the video embedded':'')+' — follow ALL WarriorPlus sales-page guidelines (honest claims, no income guarantees, clear refund policy, contact info, disclaimer)\n(4) STOP — explain everything to the user (final title, price, what was made) and get OK\n(5) ONLY AFTER user OK: create product + offer on WarriorPlus, upload the PDF file to WarriorPlus, activate\n(6) ⚠️ MANDATORY: install the WarriorPlus buy-button code on the landing page (every price section + hero) — clicking it MUST go to the WarriorPlus checkout/payment page. Never leave a landing page without the buy button.\n(7) Track marketplace approval — report approval date\n(8) YOUTUBE VIDEO — after everything above is live: create a product walkthrough video using SCREENSHOTS of the landing page (AI slides + voiceover showing what is inside the product), make an emoji-style thumbnail (fresh variation, no face), upload it to the Affiliate Launch Lab YouTube channel with 100% SEO (title, description, tags, chapters), then EMBED the published video into the landing page and pin a comment with the buy link\n\nDo NOT publish without user OK.';
+var cmd='📕 NEW PRODUCT REQUEST\n'+topicLine+'\nSuggested price: $'+p+' (analyze market — adjust to what sells best)\nAuthor: '+a+(v?'\nVideo: '+v:'')+'\nCommission: 50% | Refund: 14 days\n\nWORKFLOW:\n(0) MARKET ANALYSIS — research WarriorPlus marketplace: which topics/niches sell best right now. If no topic was given, YOU pick the winning topic yourself — the user wants you to decide everything. Suggest 3-5 title options, determine the optimal price point for maximum sales\n(1) Write the full PDF ebook based on market analysis (PDF QA: review end-to-end, fix every error before delivery)\n(2) Make a stylish cover (cinematic/emoji style)\n(3) Build the landing page (GitHub Pages)'+(v?' with the video embedded':'')+' — follow ALL WarriorPlus sales-page guidelines (honest claims, no income guarantees, clear refund policy, contact info, disclaimer)\n(4) STOP — explain everything to the user (final title, price, what was made) and get OK\n(5) ONLY AFTER user OK: create product + offer on WarriorPlus, upload the PDF file to WarriorPlus, activate\n(6) ⚠️ MANDATORY: install the WarriorPlus buy-button code on the landing page (every price section + hero) — clicking it MUST go to the WarriorPlus checkout/payment page. Never leave a landing page without the buy button.\n(7) Track marketplace approval — report approval date\n(8) YOUTUBE VIDEO — after everything above is live: create a product walkthrough video in this style: '+vst+' — using SCREENSHOTS of the landing page (AI slides + voiceover showing what is inside the product), make an emoji-style thumbnail (fresh variation, no face), upload it to the Affiliate Launch Lab YouTube channel with 100% SEO (title, description, tags, chapters), then EMBED the published video into the landing page and pin a comment with the buy link\n\nDo NOT publish without user OK.';
 document.getElementById('cmd-text').value=cmd;
 document.getElementById('cmd-out').style.display='block';
 }
 function copyCmd(){
 var el=document.getElementById('cmd-text');el.select();
-document.execCommand('copy');
-alert('Copied! Now paste it to Muse.');
-}
-function genVCmd(){
-var p=document.getElementById('v-product').value.trim();
-var l=document.getElementById('v-lp').value.trim();
-var s=document.getElementById('v-style');
-var st=s.options[s.selectedIndex].text;
-if(!p||!l){alert('Please fill Product and Landing Page URL');return;}
-var cmd='🎬 YOUTUBE VIDEO REQUEST\nProduct: '+p+'\nLanding Page: '+l+'\nStyle: '+st+'\n\nWORKFLOW:\n(1) Create the video (AI slides + voiceover, walkthrough of the product)\n(2) Make emoji-style thumbnail (fresh variation, no face)\n(3) Upload to Affiliate Launch Lab YouTube channel with 100% SEO (title, description, tags, chapters)\n(4) Embed the video into the landing page\n(5) Pin a comment with the buy link\n\nDo everything end-to-end.';
-document.getElementById('vcmd-text').value=cmd;
-document.getElementById('vcmd-out').style.display='block';
-}
-function copyVCmd(){
-var el=document.getElementById('vcmd-text');el.select();
 document.execCommand('copy');
 alert('Copied! Now paste it to Muse.');
 }
